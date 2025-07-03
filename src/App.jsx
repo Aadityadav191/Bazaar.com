@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/signup";
 
 import { Routes, Route } from "react-router-dom";
+import Landing from "./pages/Landing";
 
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
     <>
       <Navbar />
       <Routes>
-        <Route path="/" element={<h1>Home Page</h1>} />
+        <Route path="/" element={<Landing/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/signup" element={<Signup/>} />
       </Routes>

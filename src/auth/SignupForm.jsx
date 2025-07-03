@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { auth } from "../firebaseConfig";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function SignupForm() {
   const {
@@ -8,10 +12,46 @@ export default function SignupForm() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("Form Data:", data);
-  };
+  const [Formdata, setFormdata] = useState({
+    name: "",
+    email: "",
+    password: "",
+    terms: false,
+  });
 
+  const navigate = useNavigate();
+
+  const handleSignup = async (data) => {
+    const { email, password } = data;
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      console.log("User created:", user);
+
+      // Success Toast
+      toast.success("Account created successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        theme: "light",
+      });
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    } catch (error) {
+      console.error("Error signing up:", error.message);
+
+      toast.error(`Signup failed: ${error.message}`, {
+        position: "top-right",
+        autoClose: 3000,
+        theme: "colored",
+      });
+    }
+  };
   return (
     <>
       <div className="flex bg-white items-center justify-center px-4 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-4">
@@ -20,10 +60,8 @@ export default function SignupForm() {
             <h5>Register with</h5>
           </div>
           <div className="flex flex-wrap px-3 -mx-3 sm:px-6 xl:px-12">
-            
             <div className="w-3/12 max-w-full px-1 ml-auto flex-0">
               <a className="inline-block w-full px-6 py-3 mb-4 font-bold text-center text-gray-200 uppercase align-middle transition-all bg-transparent border border-gray-200 border-solid rounded-lg shadow-none cursor-pointer hover:scale-102 leading-pro text-xs ease-soft-in tracking-tight-soft bg-150 bg-x-25 hover:bg-transparent hover:opacity-75">
-                
                 <svg
                   xmlnsXlink="http://www.w3.org/1999/xlink32"
                   xmlns="http://www.w3.org/2000/svg"
@@ -32,9 +70,22 @@ export default function SignupForm() {
                   height="32px"
                   width="24px"
                 >
-                  <g fillRule="evenodd" fill="none" strokeWidth={1} stroke="none">
-                    <g fillRule="nonzero" transform="translate(3.000000, 3.000000)">
-                      <circle r="29.4882047" cy="29.4927506" cx="29.5091719" fill="#3C5A9A" />
+                  <g
+                    fillRule="evenodd"
+                    fill="none"
+                    strokeWidth={1}
+                    stroke="none"
+                  >
+                    <g
+                      fillRule="nonzero"
+                      transform="translate(3.000000, 3.000000)"
+                    >
+                      <circle
+                        r="29.4882047"
+                        cy="29.4927506"
+                        cx="29.5091719"
+                        fill="#3C5A9A"
+                      />
                       <path
                         fill="#FFFFFF"
                         d="M39.0974944,9.05587273 L32.5651312,9.05587273 C28.6886088,9.05587273 24.3768224,10.6862851 24.3768224,16.3054653 C24.395747,18.2634019 24.3768224,20.1385313 24.3768224,22.2488655 L19.8922122,22.2488655 L19.8922122,29.3852113 L24.5156022,29.3852113 L24.5156022,49.9295284 L33.0113092,49.9295284 L33.0113092,29.2496356 L38.6187742,29.2496356 L39.1261316,22.2288395 L32.8649196,22.2288395 C32.8649196,22.2288395 32.8789377,19.1056932 32.8649196,18.1987181 C32.8649196,15.9781412 35.1755132,16.1053059 35.3144932,16.1053059 C36.4140178,16.1053059 38.5518876,16.1085101 39.1006986,16.1053059 L39.1006986,9.05587273 L39.0974944,9.05587273 L39.0974944,9.05587273 Z"
@@ -54,8 +105,17 @@ export default function SignupForm() {
                   height="32px"
                   width="24px"
                 >
-                  <g fillRule="evenodd" fill="none" strokeWidth={1} stroke="none">
-                    <g fillRule="nonzero" fill="#000000" transform="translate(7.000000, 0.564551)">
+                  <g
+                    fillRule="evenodd"
+                    fill="none"
+                    strokeWidth={1}
+                    stroke="none"
+                  >
+                    <g
+                      fillRule="nonzero"
+                      fill="#000000"
+                      transform="translate(7.000000, 0.564551)"
+                    >
                       <path d="M40.9233048,32.8428307 C41.0078713,42.0741676 48.9124247,45.146088 49,45.1851909 C48.9331634,45.4017274 47.7369821,49.5628653 44.835501,53.8610269 C42.3271952,57.5771105 39.7241148,61.2793611 35.6233362,61.356042 C31.5939073,61.431307 30.2982233,58.9340578 25.6914424,58.9340578 C21.0860585,58.9340578 19.6464932,61.27947 15.8321878,61.4314159 C11.8738936,61.5833617 8.85958554,57.4131833 6.33064852,53.7107148 C1.16284874,46.1373849 -2.78641926,32.3103122 2.51645059,22.9768066 C5.15080028,18.3417501 9.85858819,15.4066355 14.9684701,15.3313705 C18.8554146,15.2562145 22.5241194,17.9820905 24.9003639,17.9820905 C27.275104,17.9820905 31.733383,14.7039812 36.4203248,15.1854154 C38.3824403,15.2681959 43.8902255,15.9888223 47.4267616,21.2362369 C47.1417927,21.4153043 40.8549638,25.1251794 40.9233048,32.8428307 M33.3504628,10.1750144 C35.4519466,7.59650964 36.8663676,4.00699306 36.4804992,0.435448578 C33.4513624,0.558856931 29.7884601,2.48154382 27.6157341,5.05863265 C25.6685547,7.34076135 23.9632549,10.9934525 24.4233742,14.4943068 C27.7996959,14.7590956 31.2488715,12.7551531 33.3504628,10.1750144" />
                     </g>
                   </g>
@@ -72,8 +132,16 @@ export default function SignupForm() {
                   height="32px"
                   width="24px"
                 >
-                  <g fillRule="evenodd" fill="none" strokeWidth={1} stroke="none">
-                    <g fillRule="nonzero" transform="translate(3.000000, 2.000000)">
+                  <g
+                    fillRule="evenodd"
+                    fill="none"
+                    strokeWidth={1}
+                    stroke="none"
+                  >
+                    <g
+                      fillRule="nonzero"
+                      transform="translate(3.000000, 2.000000)"
+                    >
                       <path
                         fill="#4285F4"
                         d="M57.8123233,30.1515267 C57.8123233,27.7263183 57.6155321,25.9565533 57.1896408,24.1212666 L29.4960833,24.1212666 L29.4960833,35.0674653 L45.7515771,35.0674653 C45.4239683,37.7877475 43.6542033,41.8844383 39.7213169,44.6372555 L39.6661883,45.0037254 L48.4223791,51.7870338 L49.0290201,51.8475849 C54.6004021,46.7020943 57.8123233,39.1313952 57.8123233,30.1515267"
@@ -102,7 +170,12 @@ export default function SignupForm() {
             </div>
           </div>
           <div className="flex-auto p-6">
-            <form onSubmit={handleSubmit(onSubmit)} role="form text-left" noValidate>
+            <ToastContainer />
+            <form
+              onSubmit={handleSubmit(handleSignup)}
+              role="form text-left"
+              noValidate
+            >
               <div className="mb-4">
                 <input
                   aria-describedby="name-addon"
@@ -113,9 +186,15 @@ export default function SignupForm() {
                   } bg-white bg-clip-padding py-2 px-3 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:bg-white focus:text-gray-700 focus:outline-none focus:transition-shadow`}
                   type="text"
                   {...register("name", { required: "Name is required" })}
+                  value={Formdata.name}
+                  onChange={(e) =>
+                    setFormdata({ ...Formdata, name: e.target.value })
+                  }
                 />
                 {errors.name && (
-                  <p className="mt-1 text-xs text-red-600">{errors.name.message}</p>
+                  <p className="mt-1 text-xs text-red-600">
+                    {errors.name.message}
+                  </p>
                 )}
               </div>
               <div className="mb-4">
@@ -130,14 +209,19 @@ export default function SignupForm() {
                   {...register("email", {
                     required: "Email is required",
                     pattern: {
-                      value:
-                        /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                      value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
                       message: "Invalid email address",
                     },
                   })}
+                  value={Formdata.email}
+                  onChange={(e) => {
+                    setFormdata({ ...Formdata, email: e.target.value });
+                  }}
                 />
                 {errors.email && (
-                  <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>
+                  <p className="mt-1 text-xs text-red-600">
+                    {errors.email.message}
+                  </p>
                 )}
               </div>
               <div className="mb-4">
@@ -156,9 +240,15 @@ export default function SignupForm() {
                       message: "Password must be at least 6 characters",
                     },
                   })}
+                  value={Formdata.password}
+                  onChange={(e) =>
+                    setFormdata({ ...Formdata, password: e.target.value })
+                  }
                 />
                 {errors.password && (
-                  <p className="mt-1 text-xs text-red-600">{errors.password.message}</p>
+                  <p className="mt-1 text-xs text-red-600">
+                    {errors.password.message}
+                  </p>
                 )}
               </div>
               <div className="min-h-6 pl-7 mb-0.5 block">
@@ -169,6 +259,10 @@ export default function SignupForm() {
                   {...register("terms", {
                     required: "You must agree to the terms and conditions",
                   })}
+                  checked={Formdata.terms}
+                  onChange={(e) =>
+                    setFormdata({ ...Formdata, terms: e.target.checked })
+                  }
                 />
                 <label
                   htmlFor="terms"
@@ -187,20 +281,26 @@ export default function SignupForm() {
                   </svg>
                 </label>
                 {errors.terms && (
-                  <p className="mt-1 text-xs text-red-600">{errors.terms.message}</p>
+                  <p className="mt-1 text-xs text-red-600">
+                    {errors.terms.message}
+                  </p>
                 )}
               </div>
               <div className="text-center">
                 <button
                   type="submit"
                   className="inline-block w-full px-6 py-3 mt-6 mb-2 font-bold text-center text-green-500 uppercase align-middle transition-all bg-transparent border-0 rounded-lg cursor-pointer active:opacity-85 hover:scale-102 hover:shadow-soft-xs leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 bg-gradient-to-tl from-gray-900 to-slate-800 hover:border-slate-700 hover:bg-slate-700 hover:text-white"
+                  onSubmit={handleSignup}
                 >
                   Sign up
                 </button>
               </div>
               <p className="mt-4 mb-0 leading-normal text-sm">
                 Already have an account?{" "}
-                <a className="font-bold text-slate-700" href="../pages/sign-in.html">
+                <a
+                  className="font-bold text-slate-700"
+                  href="../pages/sign-in.html"
+                >
                   Sign in
                 </a>
               </p>
