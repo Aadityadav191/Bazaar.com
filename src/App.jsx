@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import Navbar from "./Components/Navbar";
 import Login from "./pages/Login";
-import Signup from "./pages/signup";
+import Signup from "./pages/Signup";
 import { useState, useEffect } from "react";
 import Popup from "./Components/Popup";
 import { Routes, Route } from "react-router-dom";
