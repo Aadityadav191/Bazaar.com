@@ -43,7 +43,7 @@ const styles = {
     background: 'rgba(0, 0, 0, 0.5)',
   },
   container: {
-    maxWidth: '500px',
+    maxWidth: 'auto',
     backgroundColor: '#fff',
     borderRadius: '10px',
     padding: '1.5rem',

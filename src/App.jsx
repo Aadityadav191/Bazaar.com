@@ -1,36 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Navbar from "./Components/Navbar";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import { useState, useEffect } from "react";
-import Popup from "./Components/Popup";
-import { Routes, Route } from "react-router-dom";
-import Landing from "./pages/Landing";
-import CookieConsent from './Components/CookieConsent';
-import AboutPage from "./pages/About";
-import Contact from "./pages/Contact";
-import Shop from "./pages/Shop";
 import Footer from "./Components/Common/Footer";
-import ProductDetails from "./pages/ProductDetails";
+import Popup from "./Components/Popup";
+import CookieConsent from './Components/CookieConsent';
+import AppRouter from "./router/AppRouter"; 
 
 function App() {
   const [showPopup, setShowPopup] = useState(false);
-    const [showConsent, setShowConsent] = useState(false);
+  const [showConsent, setShowConsent] = useState(false);
 
   useEffect(() => {
-    // setTimeout(() => {
-    //   setShowPopup(true);
-    // }, 500);
-
     const consent = localStorage.getItem('cookie_consent');
     if (!consent) {
-      setTimeout(() => {
-        setShowConsent(true);
-      }, 5000);
+      setTimeout(() => setShowConsent(false), 5000);
     }
   }, []);
-
 
   const handleAccept = () => {
     localStorage.setItem('cookie_consent', 'true');
@@ -40,17 +25,13 @@ function App() {
   return (
     <>
       {showPopup && <Popup onClose={() => setShowPopup(false)} />}
-       {showConsent && <CookieConsent onAccept={handleAccept} />}
+      {showConsent && <CookieConsent onAccept={handleAccept} />}
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/shop" element={<Shop />} />
-        <Route path="/ProductDetails/:id" element={<ProductDetails />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-      </Routes>
+      
+      <main className="min-h-screen">
+        <AppRouter />
+      </main>
+
       <Footer/>
     </>
   );
