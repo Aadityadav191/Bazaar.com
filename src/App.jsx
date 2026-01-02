@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import Navbar from "./Components/Navbar";
 import Footer from "./Components/Common/Footer";
 import Popup from "./Components/Popup";
 import CookieConsent from './Components/CookieConsent';
 import AppRouter from "./router/AppRouter"; 
+import Navbar from "./Components/Common/Navbar";
 
 function App() {
   const [showPopup, setShowPopup] = useState(false);
@@ -26,7 +26,7 @@ function App() {
     <>
       {showPopup && <Popup onClose={() => setShowPopup(false)} />}
       {showConsent && <CookieConsent onAccept={handleAccept} />}
-      <Navbar />
+      <Navbar/>
       
       <main className="min-h-screen">
         <AppRouter />
