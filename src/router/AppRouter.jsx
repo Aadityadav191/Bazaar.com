@@ -9,21 +9,31 @@ import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import FAQ from "../pages/FAQ";
 import ReturnRefund from "../pages/ReturnRefund";
+import Mainlayout from "../Layout/Mainlayout";
+import Authlayout from "../Layout/authlayout";
+import NotFound from "../pages/NotFound";
 
 const AppRouter = () => {
   return (
-    <Routes>
+   <>
+     <Routes>
+      <Route element={<Mainlayout />}>
       <Route path="/" element={<Landing />} />
       <Route path="/shop" element={<Shop />} />
-      {/* Ensure the path case matches your navigate calls */}
       <Route path="/ProductDetails/:id" element={<ProductDetails />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/faq" element={<FAQ />} />
       <Route path="/return-refunds" element={<ReturnRefund />} />
+      <Route path="*" element={<NotFound />} />
+    </Route>
+
+    <Route element={<Authlayout />}>
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
-    </Routes>
+    </Route>
+     </Routes>
+   </>
   );
 };
 

@@ -82,7 +82,7 @@ const Contact = () => {
                       type="text" 
                       required
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
-                      placeholder="Jane Doe"
+                      placeholder="Aadit Yadav "
                     />
                   </div>
                   <div>
@@ -91,7 +91,7 @@ const Contact = () => {
                       type="email" 
                       required
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
-                      placeholder="jane@example.com"
+                      placeholder="YourMail@example.com"
                     />
                   </div>
                 </div>

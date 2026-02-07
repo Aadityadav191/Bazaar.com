@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 // import Logo from "../../assets/Logo.jpeg";
+import { User } from 'lucide-react';
+
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [login , setLogin] = useState(true);
 
   const closeMenu = () => setIsOpen(false);
 
@@ -100,32 +103,24 @@ export default function Navbar() {
           </div>
 
           <div className="hidden lg:flex items-center gap-4">
-            <NavLink to="/login">
-              <button className="px-6 py-2.5 text-sm font-semibold text-gray-700 border border-gray-200 rounded-lg hover:border-gray-400 hover:text-gray-900 transition duration-300">
-                Login / Register
-              </button>
-            </NavLink>
-            <NavLink to="/create-order">
-              <button
+            
+           { login ?(<>
+             <NavLink to="/profile">
+              <div
                 className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-white 
                            bg-gradient-to-r from-[#36b6ff] to-indigo-600 rounded-lg shadow-md transition duration-300  hover:from-indigo-600 hover:to-[#36b6ff]"
               >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-                  />
-                </svg>
-                Create Order
+                <User className="w-4 h-4" />
+                Aadit yadav
+              </div>
+            </NavLink>
+           </>):(<>
+            <NavLink to="/login">
+              <button className="px-6 py-2.5 text-sm font-semibold text-gray-700 border bg-gradient-to-r from-[#6b8ee6] to-indigo-200 border-gray-200 rounded-lg hover:border-gray-400 hover:text-gray-900 transition duration-300">
+                Login / Register
               </button>
             </NavLink>
+           </>)}
           </div>
 
           <button
@@ -218,6 +213,10 @@ export default function Navbar() {
             {/* Login/Register Button */}
             <NavLink to="/login" className="w-full" onClick={closeMenu}>
               <button className="w-full px-6 py-2.5 text-sm font-semibold text-gray-700 border border-gray-200 rounded-lg hover:border-gray-400 hover:text-gray-900 transition">
+                Login / Register
+              </button>
+
+               <button className="w-full px-6 py-2.5 text-sm font-semibold text-gray-700 border border-gray-200 rounded-lg hover:border-gray-400 hover:text-gray-900 transition">
                 Login / Register
               </button>
             </NavLink>
