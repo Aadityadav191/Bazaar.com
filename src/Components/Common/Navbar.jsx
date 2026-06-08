@@ -6,7 +6,7 @@ import { User } from 'lucide-react';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [login , setLogin] = useState(false);
+  const [login] = useState(false);
 
   const closeMenu = () => setIsOpen(false);
 
