@@ -10,7 +10,7 @@ import Signup from "../pages/Signup";
 import FAQ from "../pages/FAQ";
 import ReturnRefund from "../pages/ReturnRefund";
 import Mainlayout from "../Layout/Mainlayout";
-import Authlayout from "../Layout/authlayout";
+import Authlayout from "../Layout/Authlayout";
 import NotFound from "../pages/NotFound";
 import ForgotPassword from "../Auth/ForgotPassword";
 import VerifyOtp from "../Auth/VerifyOtp";
