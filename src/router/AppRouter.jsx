@@ -12,6 +12,9 @@ import ReturnRefund from "../pages/ReturnRefund";
 import Mainlayout from "../Layout/Mainlayout";
 import Authlayout from "../Layout/authlayout";
 import NotFound from "../pages/NotFound";
+import ForgotPassword from "../Auth/ForgotPassword";
+import VerifyOtp from "../Auth/VerifyOtp";
+import ResetPassword from "../Auth/ResetPassword";
 
 const AppRouter = () => {
   return (
@@ -28,9 +31,12 @@ const AppRouter = () => {
       <Route path="*" element={<NotFound />} />
     </Route>
 
-    <Route element={<Authlayout />}>
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
+    <Route path="/auth"  element={<Authlayout />}>
+      <Route path="login" element={<Login />} />
+      <Route path="signup" element={<Signup />} />
+      <Route path="forgot-password" element={<ForgotPassword />} />
+      <Route path="verify-otp" element={<VerifyOtp />} />
+      <Route path="reset-password" element={<ResetPassword />} />
     </Route>
      </Routes>
    </>

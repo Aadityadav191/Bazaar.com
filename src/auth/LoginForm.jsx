@@ -22,7 +22,8 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="w-full">
+    <>
+      <div className="w-full">
       <ToastContainer />
       <div className="mb-8">
         <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">Welcome Back</h2>
@@ -91,7 +92,7 @@ export default function LoginForm() {
                 <label htmlFor="password" className="text-xs font-bold uppercase tracking-widest text-gray-700">
                   Password
                 </label>
-                <Link to="/forgot-password" size="sm" className="text-xs font-bold text-green-600 hover:text-green-700">
+                <Link to="/auth/forgot-password" size="sm" className="text-xs font-bold text-green-600 hover:text-green-700">
                   Forgot?
                 </Link>
               </div>
@@ -122,7 +123,7 @@ export default function LoginForm() {
 
             <p className="text-center text-sm text-gray-600 pt-4">
               New here?{" "}
-              <Link to="/signup" className="font-bold text-green-600 hover:underline">
+              <Link to="/auth/signup" className="font-bold text-green-600 hover:underline">
                 Create an account
               </Link>
             </p>
@@ -130,5 +131,6 @@ export default function LoginForm() {
         )}
       </Formik>
     </div>
+    </>
   );
 }

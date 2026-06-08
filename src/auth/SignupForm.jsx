@@ -35,6 +35,7 @@ export default function SignupForm() {
       navigate("/");
     } catch (error) {
       toast.error("Google sign-in failed.");
+      console.error("Google sign-in error:", error);
     }
   };
 
@@ -123,7 +124,7 @@ export default function SignupForm() {
             className="mt-1 w-4 h-4 rounded text-green-600 border-gray-300 focus:ring-green-500"
           />
           <label className="text-xs text-gray-600 leading-tight">
-            I agree to the <Link to="/terms" className="text-green-600 font-bold hover:underline">Terms of Service</Link> and <Link to="/privacy" className="text-green-600 font-bold hover:underline">Privacy Policy</Link>.
+            I agree to the <Link to="/auth/terms" className="text-green-600 font-bold hover:underline">Terms of Service</Link> and <Link to="/auth/privacy" className="text-green-600 font-bold hover:underline">Privacy Policy</Link>.
           </label>
         </div>
         {errors.terms && <p className="text-red-500 text-[10px] ml-6">You must agree to continue</p>}
@@ -138,7 +139,7 @@ export default function SignupForm() {
 
         <p className="text-center text-sm text-gray-500 mt-6">
           Already have an account?{" "}
-          <Link to="/login" className="text-green-600 font-bold hover:underline">Log in</Link>
+          <Link to="/auth/login" className="text-green-600 font-bold hover:underline">Log in</Link>
         </p>
       </form>
     </div>

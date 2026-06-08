@@ -11,8 +11,15 @@ export default function Authlayout() {
       <section className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">
           
+          
+          {/* This is where Login.js or Signup.js will render */}
+          <div className="mt-6">
+            <Outlet />
+          </div>
+
+
           {/* Navigation Shortcuts */}
-          <div className="flex items-center justify-between mb-10">
+          <div className="flex items-center justify-between mt-20">
             <button
               onClick={() => navigate(-1)}
               className="group flex items-center text-sm font-medium text-gray-500 hover:text-green-600 transition-colors"
@@ -27,11 +34,6 @@ export default function Authlayout() {
               <Home className="mr-1.5 h-4 w-4" />
               Home
             </Link>
-          </div>
-
-          {/* This is where Login.js or Signup.js will render */}
-          <div className="mt-6">
-            <Outlet />
           </div>
           
         </div>

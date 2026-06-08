@@ -115,7 +115,7 @@ export default function Navbar() {
               </div>
             </NavLink>
            </>):(<>
-            <NavLink to="/login">
+            <NavLink to="/auth/login">
               <button className="px-6 py-2.5 text-sm font-semibold text-gray-700 border bg-gradient-to-r from-[#6b8ee6] to-indigo-200 border-gray-200 rounded-lg hover:border-gray-400 hover:text-gray-900 transition duration-300">
                 Login / Register
               </button>
@@ -211,12 +211,8 @@ export default function Navbar() {
             <hr className="border-gray-200 mt-2 mb-2" />
 
             {/* Login/Register Button */}
-            <NavLink to="/login" className="w-full" onClick={closeMenu}>
+            <NavLink to="auth/login" className="w-full" onClick={closeMenu}>
               <button className="w-full px-6 py-2.5 text-sm font-semibold text-gray-700 border border-gray-200 rounded-lg hover:border-gray-400 hover:text-gray-900 transition">
-                Login / Register
-              </button>
-
-               <button className="w-full px-6 py-2.5 text-sm font-semibold text-gray-700 border border-gray-200 rounded-lg hover:border-gray-400 hover:text-gray-900 transition">
                 Login / Register
               </button>
             </NavLink>
