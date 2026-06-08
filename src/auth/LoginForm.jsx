@@ -17,6 +17,7 @@ export default function LoginForm() {
       navigate("/");
     } catch (error) {
       toast.error("Google sign-in failed.");
+      console.error("Google sign-in error:", error);
     }
   };
 
@@ -58,6 +59,7 @@ export default function LoginForm() {
           } catch (error) {
             toast.error("Invalid email or password");
             setSubmitting(false);
+            console.error("Login error:", error);
           }
         }}
       >
