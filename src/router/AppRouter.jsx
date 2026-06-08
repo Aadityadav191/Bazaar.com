@@ -12,9 +12,9 @@ import ReturnRefund from "../pages/ReturnRefund";
 import Mainlayout from "../Layout/Mainlayout";
 import Authlayout from "../Layout/Authlayout";
 import NotFound from "../pages/NotFound";
-import ForgotPassword from "../Auth/ForgotPassword";
-import VerifyOtp from "../Auth/VerifyOtp";
-import ResetPassword from "../Auth/ResetPassword";
+import ForgotPassword from "../auth/ForgotPassword";
+import VerifyOtp from "../auth/VerifyOtp";
+import ResetPassword from "../auth/ResetPassword";
 
 const AppRouter = () => {
   return (
