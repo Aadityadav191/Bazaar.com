@@ -1,47 +1,48 @@
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Mail, Lock, LogIn, Chrome } from "lucide-react";
-import { auth } from "../firebaseConfig";
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useNavigate, Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { loginUser } from "../services/userService";
 
 export default function LoginForm() {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = React.useState(false);
 
-  const handleGoogleSignIn = async () => {
-    const provider = new GoogleAuthProvider();
+  const handleLogin = async (values, setSubmitting) => {
     try {
-      await signInWithPopup(auth, provider);
-      toast.success("Signed in successfully!");
-      navigate("/");
+      const response = await loginUser({
+        email: values.email,
+        password: values.password,
+      });
+
+      // Save token or user in localStorage if needed
+      localStorage.setItem("token", response.token);
+      localStorage.setItem("user", JSON.stringify(response.user));
+
+      toast.success("Login successful!");
+      setTimeout(() => navigate("/"), 1500);
     } catch (error) {
-      toast.error("Google sign-in failed.");
-      console.error("Google sign-in error:", error);
+      console.error("Login error:", error.response || error);
+      toast.error(
+        error.response?.data?.message || "Login failed. Check your credentials."
+      );
+      setSubmitting(false);
     }
   };
 
   return (
-    <>
-      <div className="w-full">
+    <div className="w-full max-w-md mx-auto">
       <ToastContainer />
+
       <div className="mb-8">
-        <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">Welcome Back</h2>
-        <p className="text-gray-500 mt-2 text-sm">Please enter your details to sign in to your account.</p>
-      </div>
-
-      {/* Social Login */}
-      <button
-        onClick={handleGoogleSignIn}
-        className="flex w-full items-center justify-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 transition-all hover:bg-gray-50 active:scale-[0.98]"
-      >
-        <Chrome className="h-5 w-5 text-red-500" />
-        Sign in with Google
-      </button>
-
-      <div className="relative my-8">
-        <div className="absolute inset-0 flex items-center"><span className="w-full border-t border-gray-100"></span></div>
-        <div className="relative flex justify-center text-xs uppercase"><span className="bg-white px-4 text-gray-400 font-medium">Or email login</span></div>
+        <h2 className="text-3xl font-extrabold text-[#c51215] tracking-tight">
+          Welcome Back
+        </h2>
+        <p className="text-gray-500 mt-2 text-sm">
+          Please enter your details to sign in to your account.
+        </p>
       </div>
 
       <Formik
@@ -52,23 +53,13 @@ export default function LoginForm() {
           if (!values.password) errors.password = "Password is required";
           return errors;
         }}
-        onSubmit={async (values, { setSubmitting }) => {
-          try {
-            await signInWithEmailAndPassword(auth, values.email, values.password);
-            toast.success("Login Successful!");
-            setTimeout(() => navigate("/"), 1500);
-          } catch (error) {
-            toast.error("Invalid email or password");
-            setSubmitting(false);
-            console.error("Login error:", error);
-          }
-        }}
+        onSubmit={(values, { setSubmitting }) => handleLogin(values, setSubmitting)}
       >
         {({ isSubmitting, errors, touched }) => (
           <Form className="space-y-5">
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-xs font-bold uppercase tracking-widest text-gray-700 mb-2 ml-1">
+              <label className="block text-xs font-bold uppercase text-gray-700 mb-2 ml-1">
                 Email Address
               </label>
               <div className="relative">
@@ -77,22 +68,30 @@ export default function LoginForm() {
                   name="email"
                   type="email"
                   placeholder="name@company.com"
-                  className={`block w-full pl-10 pr-4 py-3 border rounded-xl text-sm transition-all outline-none
-                    ${errors.email && touched.email 
-                      ? "border-red-500 ring-4 ring-red-50" 
-                      : "border-gray-200 focus:border-green-500 focus:ring-4 focus:ring-green-50"}`}
+                  className={`block w-full pl-10 pr-4 py-3 border rounded-xl text-sm
+                  ${errors.email && touched.email
+                    ? "border-red-500 ring-4 ring-red-50"
+                    : "border-gray-200 focus:border-green-500 focus:ring-4 focus:ring-green-50"
+                  }`}
                 />
               </div>
-              <ErrorMessage name="email" component="p" className="text-red-500 text-[10px] mt-1.5 ml-1 font-medium" />
+              <ErrorMessage
+                name="email"
+                component="p"
+                className="text-red-500 text-[10px] mt-1.5 ml-1 font-medium"
+              />
             </div>
 
             {/* Password Field */}
             <div>
               <div className="flex justify-between mb-2 ml-1">
-                <label htmlFor="password" className="text-xs font-bold uppercase tracking-widest text-gray-700">
+                <label className="text-xs font-bold uppercase text-gray-700">
                   Password
                 </label>
-                <Link to="/auth/forgot-password" size="sm" className="text-xs font-bold text-[#e27973] hover:text-green-700">
+                <Link
+                  to="/auth/forgot-password"
+                  className="text-xs font-bold text-[#e27973] hover:text-green-700"
+                >
                   Forgot?
                 </Link>
               </div>
@@ -100,15 +99,29 @@ export default function LoginForm() {
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <Field
                   name="password"
-                  type="password"
-                  placeholder="••••••••"
-                  className={`block w-full pl-10 pr-4 py-3 border rounded-xl text-sm transition-all outline-none
-                    ${errors.password && touched.password 
-                      ? "border-red-500 ring-4 ring-red-50" 
-                      : "border-gray-200 focus:border-green-500 focus:ring-4 focus:ring-green-50"}`}
+                  type={showPassword ? "text" : "password"}
+                  placeholder="*******"
+                  className={`block w-full pl-10 pr-4 py-3 border rounded-xl text-sm
+                  ${errors.password && touched.password
+                    ? "border-red-500 ring-4 ring-red-50"
+                    : "border-gray-200 focus:border-green-500 focus:ring-4 focus:ring-green-50"
+                  }`}
                 />
               </div>
-              <ErrorMessage name="password" component="p" className="text-red-500 text-[10px] mt-1.5 ml-1 font-medium" />
+              <div className="flex items-center justify-between mt-2">
+                <ErrorMessage
+                  name="password"
+                  component="p"
+                  className="text-red-500 text-[10px] ml-1 font-medium"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="text-xs font-bold text-[#e27973] hover:text-green-700"
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
             </div>
 
             {/* Submit Button */}
@@ -121,9 +134,12 @@ export default function LoginForm() {
               {!isSubmitting && <LogIn className="h-4 w-4" />}
             </button>
 
-            <p className="text-center text-sm text-gray-600 pt-4">
+            <p className="text-center text-sm text-gray-600 pt-1">
               New here?{" "}
-              <Link to="/auth/signup" className="font-bold text-[#e27973] hover:underline">
+              <Link
+                to="/auth/signup"
+                className="font-bold text-[#c51215] hover:underline"
+              >
                 Create an account
               </Link>
             </p>
@@ -131,6 +147,5 @@ export default function LoginForm() {
         )}
       </Formik>
     </div>
-    </>
   );
 }
