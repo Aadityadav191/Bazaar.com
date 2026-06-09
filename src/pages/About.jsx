@@ -11,7 +11,7 @@ const AboutPage = () => {
             We’re redefining <span className="text-indigo-600">modern living.</span>
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Founded in 2023, LUMINA was born out of a simple idea: high-quality design shouldn't be a luxury reserved for the few.
+            Founded in 2023, Bazaar was born out of a simple idea: high-quality design shouldn't be a luxury reserved for the few.
           </p>
         </div>
       </section>
@@ -29,7 +29,7 @@ const AboutPage = () => {
           <div>
             <h2 className="text-3xl font-bold mb-6">Our Story</h2>
             <p className="text-gray-600 mb-4 leading-relaxed">
-              LUMINA started in a small studio apartment with a single goal: to create products that blend functionality with a timeless aesthetic. We noticed that the market was filled with items that were either beautiful but fragile, or durable but dull.
+              Bazaar started in a small studio apartment with a single goal: to create products that blend functionality with a timeless aesthetic. We noticed that the market was filled with items that were either beautiful but fragile, or durable but dull.
             </p>
             <p className="text-gray-600 mb-6 leading-relaxed">
               Today, we are a global team of designers and creators working to bring you essentials that make your daily routines feel special. We don't just sell products; we curate experiences.

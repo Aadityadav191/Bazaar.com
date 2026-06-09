@@ -9,7 +9,7 @@ const Footer = () => {
         {/* Top Section: Newsletter & Branding */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 pb-12 border-b border-gray-100">
           <div className="lg:col-span-1">
-            <h2 className="text-2xl font-bold tracking-tighter text-indigo-600 mb-4">LUMINA</h2>
+            <h2 className="text-2xl font-bold tracking-tighter text-indigo-600 mb-4">Bazaar</h2>
             <p className="text-gray-500 max-w-sm mb-6">
               Curating minimalist essentials for the modern home and lifestyle. Design-led, quality-driven, and sustainably made.
             </p>
@@ -29,7 +29,7 @@ const Footer = () => {
           <div className="lg:col-span-2">
             <div className="bg-indigo-50 rounded-3xl p-8 md:flex items-center justify-between">
               <div className="mb-6 md:mb-0">
-                <h3 className="text-xl font-bold text-gray-900">Join the Lumina Club</h3>
+                <h3 className="text-xl font-bold text-gray-900">Join the Bazaar Club</h3>
                 <p className="text-gray-600">Get 10% off your first order and early access to drops.</p>
               </div>
               <div className="relative w-full md:w-80">
@@ -91,7 +91,7 @@ const Footer = () => {
         {/* Bottom Section: Payments & Copyright */}
         <div className="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-gray-400 text-xs">
-            © 2025 LUMINA Lifestyle Inc. All rights reserved. Built with precision.
+            © 2025 Bazaar Lifestyle Inc. All rights reserved. Built with precision.
           </p>
           <div className="flex gap-4 items-center opacity-50 grayscale hover:grayscale-0 transition-all">
             {/* Simple representation of payment icons */}
