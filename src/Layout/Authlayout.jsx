@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { ChevronLeft, Home } from 'lucide-react';
+import LoginImage from '../assets/LoginImage.png'; // Ensure this path is correct
 
 export default function Authlayout() {
   const navigate = useNavigate();
@@ -43,16 +44,9 @@ export default function Authlayout() {
       <section className="relative hidden w-0 flex-1 lg:block">
         <img
           className="absolute inset-0 h-full w-full object-cover"
-          src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+          src={LoginImage}
           alt="Office branding"
         />
-        {/* Overlay with a bit of branding text */}
-        <div className="absolute inset-0 bg-green-600/10 backdrop-blur-[2px] flex items-center justify-center">
-          <div className="max-w-md text-center p-8 bg-white/20 rounded-2xl border border-white/30 backdrop-blur-md">
-             <h2 className="text-3xl font-bold text-[#225635] mb-4">Start your Shoping today.</h2>
-             <p className="text-green-50">Join over 10,000+ creators building the future of commerce.</p>
-          </div>
-        </div>
       </section>
     </main>
   );

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -16,31 +17,16 @@ export default function ForgotPassword() {
     setMessage("");
 
     try {
-    //   const response = await fetch(
-    //     `${import.meta.env.VITE_API_URL}/auth/forgot-password`,
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({ email }),
-    //     },
-    //   );
-
-    //   const data = await response.json();
-
-    //   if (!response.ok) {
-    //     throw new Error(data.message || "Something went wrong");
-    //   }
-
-    //   setMessage(
-    //     "If an account exists with this email, password reset instructions have been sent.",
-    //   );
-
+      // await sendPasswordResetEmail(email);
       setEmail("");
-      navigate("/auth/verify-otp", {
-        state: { email },
-      });
+      toast.success(`Reset Code sent at ${email}! Please check your email.`);
+      setTimeout(
+        () =>
+          navigate("/auth/verify-otp", {
+            state: { email },
+          }),
+        2000,
+      );
     } catch (err) {
       setError(err.message || "Failed to send reset email");
     } finally {

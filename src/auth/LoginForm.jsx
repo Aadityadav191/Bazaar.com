@@ -92,7 +92,7 @@ export default function LoginForm() {
                 <label htmlFor="password" className="text-xs font-bold uppercase tracking-widest text-gray-700">
                   Password
                 </label>
-                <Link to="/auth/forgot-password" size="sm" className="text-xs font-bold text-green-600 hover:text-green-700">
+                <Link to="/auth/forgot-password" size="sm" className="text-xs font-bold text-[#e27973] hover:text-green-700">
                   Forgot?
                 </Link>
               </div>
@@ -115,7 +115,7 @@ export default function LoginForm() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-gray-900 px-4 py-3.5 text-sm font-bold text-white shadow-lg transition-all hover:bg-gray-800 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-red-500 px-4 py-3.5 text-sm font-bold text-white shadow-lg transition-all hover:bg-gray-800 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {isSubmitting ? "Authenticating..." : "Sign In"}
               {!isSubmitting && <LogIn className="h-4 w-4" />}
@@ -123,7 +123,7 @@ export default function LoginForm() {
 
             <p className="text-center text-sm text-gray-600 pt-4">
               New here?{" "}
-              <Link to="/auth/signup" className="font-bold text-green-600 hover:underline">
+              <Link to="/auth/signup" className="font-bold text-[#e27973] hover:underline">
                 Create an account
               </Link>
             </p>
