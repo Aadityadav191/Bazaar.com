@@ -1,10 +1,7 @@
- // User profile APIs
-
- import api from "./apiConfig";
-const API_BASE_URL = "http://localhost:5000/api/user";
-
+import api from "./apiConfig";
+// import Toast from "react-hot-toast";
 /* =====================
-   AUTH
+AUTH
 ===================== */
 
 // SIGNUP
@@ -13,13 +10,12 @@ export const signupUser = async (userData) => {
   return response.data;
 };
 
-// Login
+// LOGIN
 export const loginUser = async (loginData) => {
-  try{
+  try {
     const response = await api.post("/user/login", loginData);
-  return response.data;
-  }
-  catch(error){
+    return response.data;
+  } catch (error) {
     console.error("Login error:", error.response || error);
     throw error;
   }
@@ -41,13 +37,13 @@ export const getUserById = async (id) => {
   return res.data;
 };
 
-// Update user (protected)
+// Update user
 export const updateUser = async (id, userData) => {
   const response = await api.put(`/user/${id}`, userData);
   return response.data;
 };
 
-// Delete user (protected)
+// Delete user
 export const deleteUser = async (id) => {
   const res = await api.delete(`/user/${id}`);
   return res.data;
@@ -60,4 +56,31 @@ export const deleteUser = async (id) => {
 export const changePassword = async (id, passwordData) => {
   const response = await api.put(`/user/change-password/${id}`, passwordData);
   return response.data;
+};
+
+/* =====================
+   PROFILE IMAGE UPLOAD
+===================== */
+
+export const uploadProfileImage = async (file, token) => {
+  try {
+    const formData = new FormData();
+    formData.append("ProfilePic", file); 
+
+    const response = await api.post("/user/upload-profile", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = response.data;
+
+    // normalize backend response
+    return data.url || data.profilePic || data.imageUrl || data.image || null;
+  } catch (error) {
+    // Toast.error("Image upload failed");
+    console.error("Upload error:", error.response || error);
+    throw new Error("Image upload failed");
+  }
 };
