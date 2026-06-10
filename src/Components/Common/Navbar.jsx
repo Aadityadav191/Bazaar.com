@@ -62,7 +62,7 @@ export default function Navbar() {
                 className={({ isActive }) =>
                   `px-4 py-2 rounded-xl text-xs font-bold uppercase ${
                     isActive
-                      ? "bg-black text-white"
+                      ? "bg-[#c01014] text-white"
                       : "text-zinc-600 hover:bg-zinc-100"
                   }`
                 }
@@ -85,12 +85,24 @@ export default function Navbar() {
               />
             </div>
 
-            {/* AUTH STATE */}
+            {/* AUTH STATE (Updated to support user profile pictures) */}
             {user ? (
               <div className="flex items-center gap-2">
                 <NavLink to="/profile">
-                  <button className="flex items-center gap-2 px-4 py-2 bg-orange-100 rounded-xl font-bold text-sm">
-                    <User className="w-4 h-4" />
+                  <button className="flex items-center gap-2 px-4 py-2 bg-[#c01014] text-white rounded-xl font-bold text-sm">
+                    {user.avatar || user.profilePicture ? (
+                      <img 
+                        src={user.avatar || user.profilePicture} 
+                        alt="Profile" 
+                        className="w-5 h-5 rounded-full object-cover border border-white/40"
+                        onError={(e) => {
+                          // Fallback to text icon if the image URL fails to load
+                          e.target.style.display = 'none';
+                        }}
+                      />
+                    ) : (
+                      <User className="w-4 h-4" />
+                    )}
                     Mr. {user.name}
                   </button>
                 </NavLink>
@@ -104,7 +116,7 @@ export default function Navbar() {
               </div>
             ) : (
               <NavLink to="/auth/login">
-                <button className="px-5 py-2 bg-black text-white rounded-xl text-xs font-bold uppercase">
+                <button className="px-5 py-2 bg-[#c01014] text-white rounded-xl text-xs font-bold uppercase">
                   Login / Register
                 </button>
               </NavLink>
@@ -124,12 +136,19 @@ export default function Navbar() {
         {isOpen && (
           <div className="lg:hidden p-4 border-t">
 
-            {/* AUTH MOBILE */}
+            {/* AUTH MOBILE (Updated to support user profile pictures) */}
             <div className="mb-3">
               {user ? (
                 <div className="flex flex-col gap-2">
                   <NavLink to="/profile" onClick={closeMenu}>
-                    <button className="w-full py-2 bg-orange-100 rounded-xl font-bold">
+                    <button className="flex items-center justify-center gap-2 w-full py-2 bg-orange-100 rounded-xl font-bold">
+                      {user.avatar || user.profilePicture ? (
+                        <img 
+                          src={user.avatar || user.profilePicture} 
+                          alt="Profile" 
+                          className="w-6 h-6 rounded-full object-cover border border-zinc-300"
+                        />
+                      ) : null}
                       {user.name}
                     </button>
                   </NavLink>
@@ -146,7 +165,7 @@ export default function Navbar() {
                 </div>
               ) : (
                 <NavLink to="/auth/login" onClick={closeMenu}>
-                  <button className="w-full py-2 bg-black text-white rounded-xl">
+                  <button className="w-full py-2 bg-[#c01014] text-white rounded-xl">
                     Login / Register
                   </button>
                 </NavLink>

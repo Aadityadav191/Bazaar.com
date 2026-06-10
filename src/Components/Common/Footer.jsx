@@ -3,7 +3,7 @@ import { Facebook, Instagram, Twitter, Youtube, Mail, ArrowRight } from 'lucide-
 
 const Footer = () => {
   return (
-    <footer className="bg-indigo-200 border-t border-gray-100 pt-16 pb-8">
+    <footer className="bg-red-100 border-t border-gray-100 pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Top Section: Newsletter & Branding */}
