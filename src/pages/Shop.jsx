@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Loader2, Search, SlidersHorizontal, Grid, Star, Heart, ShoppingBag, X, ChevronRight, ChevronLeft, ArrowUpDown } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import { fetchProducts, fetchTopCategories } from '../services/productService';
+import { toast } from 'react-toastify';
+import Loader from '../Components/Loader';
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -39,7 +41,9 @@ const Shop = () => {
 
         setProducts(prodData);
         setCategories(catData);
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
       } catch (err) {
         setError(err.message);
         setLoading(false);
@@ -49,7 +53,6 @@ const Shop = () => {
     fetchShopData();
   }, []);
 
-  // Reset viewport anchor layout position to zero coordinates whenever filters reset or change
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery, selectedCategory, selectedPriceRange, sortBy]);
@@ -60,15 +63,7 @@ const Shop = () => {
   };
 
   if (loading) return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-zinc-50">
-      <div className="relative flex items-center justify-center">
-        <Loader2 className="animate-spin h-14 w-14 text-zinc-900" />
-        <div className="absolute w-8 h-8 bg-zinc-200 rounded-full animate-ping opacity-40"></div>
-      </div>
-      <p className="text-zinc-400 font-bold tracking-widest uppercase text-[10px] mt-6 animate-pulse">
-        Initializing Catalog Space...
-      </p>
-    </div>
+    <Loader/>
   );
 
   if (error) return (
@@ -147,7 +142,7 @@ const Shop = () => {
               <div className="flex flex-col gap-0.5">
                 <button 
                   onClick={() => setSelectedCategory("all")}
-                  className={`text-left text-xs py-2 px-3 rounded-xl font-semibold transition-all ${selectedCategory === "all" ? "bg-zinc-900 text-white shadow-xs" : "text-zinc-600 hover:bg-zinc-200/50 hover:text-zinc-950"}`}
+                  className={`text-left text-xs py-2 px-3 rounded-xl font-semibold transition-all ${selectedCategory === "all" ? "bg-[#c01015] text-white shadow-xs" : "text-zinc-600 hover:bg-zinc-200/50 hover:text-zinc-950"}`}
                 >
                   All Products
                 </button>
@@ -155,7 +150,7 @@ const Shop = () => {
                   <button 
                     key={cat.id}
                     onClick={() => setSelectedCategory(cat.name)}
-                    className={`text-left text-xs py-2 px-3 rounded-xl font-semibold transition-all truncate ${selectedCategory.toLowerCase() === cat.name.toLowerCase() ? "bg-zinc-900 text-white shadow-xs" : "text-zinc-600 hover:bg-zinc-200/50 hover:text-zinc-950"}`}
+                    className={`text-left text-xs py-2 px-3 rounded-xl font-semibold transition-all truncate ${selectedCategory.toLowerCase() === cat.name.toLowerCase() ? "bg-[#c01015] text-white shadow-xs" : "text-zinc-600 hover:bg-zinc-200/50 hover:text-zinc-950"}`}
                   >
                     {cat.name}
                   </button>
@@ -178,7 +173,7 @@ const Shop = () => {
                   <button
                     key={range.value}
                     onClick={() => setSelectedPriceRange(range.value)}
-                    className={`text-left text-xs py-2 px-3 rounded-xl font-semibold transition-all ${selectedPriceRange === range.value ? "bg-zinc-900 text-white shadow-xs" : "text-zinc-600 hover:bg-zinc-200/50 hover:text-zinc-950"}`}
+                    className={`text-left text-xs py-2 px-3 rounded-xl font-semibold transition-all ${selectedPriceRange === range.value ? "bg-[#c01015] text-white shadow-xs" : "text-zinc-600 hover:bg-zinc-200/50 hover:text-zinc-950"}`}
                   >
                     {range.label}
                   </button>
@@ -287,11 +282,11 @@ const Shop = () => {
                           <button 
                             onClick={(e) => { 
                               e.stopPropagation(); 
-                              alert(`Added ${product.title} to configuration array!`); 
+                              toast.success("Added to Cart ", { duration: 1000 });
                             }}
                             className="w-full bg-zinc-950 hover:bg-zinc-900 text-white py-2.5 rounded-xl font-bold text-[10px] tracking-wider uppercase flex items-center justify-center gap-1.5 shadow-md"
                           >
-                            <ShoppingBag size={12} /> Add to Selection
+                            <ShoppingBag size={12} /> Add to Cart
                           </button>
                         </div>
                       </div>

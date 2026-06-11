@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { 
   ChevronRight, 
   Star, 
-  Loader2, 
   ArrowRight, 
   ShoppingBag, 
   Heart, 
@@ -20,6 +19,7 @@ import Hero3 from "../assets/Hero3.png";
 import Hero4 from "../assets/Hero4.png";
 import Hero5 from "../assets/Hero5.png";
 import Hero6 from "../assets/Hero6.png";
+import Loader from "../Components/Loader";
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
@@ -47,7 +47,9 @@ const HomePage = () => {
         // Clean any broken stringified array brackets from images if present in API data
         const cleanProducts = prodData.map(p => ({
           ...p,
-          images: p.images.map(img => img.replace(/[\[\]"]/g, ""))
+          // images: p.images.map(img => img.replace(/[\[\]"]/g, ""))   //error line 
+          images: p.images.map(img => img.replace(/[[\]"]/g, ""))
+
         }));
         setProducts(cleanProducts);
 
@@ -56,7 +58,6 @@ const HomePage = () => {
         );
         const catData = await catRes.json();
         setCategories(catData);
-
         setLoading(false);
       } catch (err) {
         console.error("Error fetching data:", err);
@@ -83,15 +84,8 @@ const HomePage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-zinc-50">
-        <div className="relative flex items-center justify-center">
-          <Loader2 className="w-16 h-16 animate-spin text-zinc-900" />
-          <div className="absolute w-8 h-8 bg-[#f9b685] rounded-full animate-ping opacity-40"></div>
-        </div>
-        <p className="text-zinc-900 font-semibold tracking-widest uppercase text-xs mt-6 animate-pulse">
-          Loading Bazaar Experience...
-        </p>
-      </div>
+      // <Loader/>
+      <Loader/>
     );
   }
 
@@ -166,7 +160,7 @@ const HomePage = () => {
               key={index}
               onClick={() => setCurrentSlide(index)}
               className={`h-2 rounded-full transition-all duration-300 ${
-                currentSlide === index ? "w-8 bg-indigo-500" : "w-2 bg-white/40"
+                currentSlide === index ? "w-8 bg-[#c01015]" : "w-2 bg-white/40"
               }`}
               aria-label={`Go to slide ${index + 1}`}
             />
@@ -178,39 +172,39 @@ const HomePage = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 bg-white border border-zinc-100 rounded-3xl p-8 shadow-sm">
           <div className="flex items-center gap-4 p-2 group">
-            <div className="p-3 rounded-2xl bg-[#f9b685]/20 text-zinc-900 group-hover:bg-[#f9b685] group-hover:text-white transition-all duration-300">
+            <div className="p-3 rounded-2xl bg-[#c01015]/50 text-zinc-900 group-hover:bg-[#f9b685] group-hover:text-white transition-all duration-300">
               <Truck className="w-6 h-6" />
             </div>
             <div>
               <h4 className="font-bold text-sm tracking-tight">Global Express Delivery</h4>
-              <p className="text-xs text-zinc-500">Free shipping on orders over $150</p>
+              <p className="text-xs text-[#c01015]">Free shipping on orders over $150</p>
             </div>
           </div>
           <div className="flex items-center gap-4 p-2 group">
-            <div className="p-3 rounded-2xl bg-[#f9b685]/20 text-zinc-900 group-hover:bg-[#f9b685] group-hover:text-white transition-all duration-300">
+            <div className="p-3 rounded-2xl  bg-[#c01015]/50 text-zinc-900 group-hover:bg-[#f9b685] group-hover:text-white transition-all duration-300">
               <ShieldCheck className="w-6 h-6" />
             </div>
             <div>
               <h4 className="font-bold text-sm tracking-tight">Secure Payment Gateway</h4>
-              <p className="text-xs text-zinc-500">Fully encrypted transactions</p>
+              <p className="text-xs text-[#c01015]">Fully encrypted transactions</p>
             </div>
           </div>
           <div className="flex items-center gap-4 p-2 group">
-            <div className="p-3 rounded-2xl bg-[#f9b685]/20 text-zinc-900 group-hover:bg-[#f9b685] group-hover:text-white transition-all duration-300">
+            <div className="p-3 rounded-2xl  bg-[#c01015]/50 text-zinc-900 group-hover:bg-[#f9b685] group-hover:text-white transition-all duration-300">
               <RotateCcw className="w-6 h-6" />
             </div>
             <div>
               <h4 className="font-bold text-sm tracking-tight">30-Day Return Evaluation</h4>
-              <p className="text-xs text-zinc-500">Hassle-free dynamic exchanges</p>
+              <p className="text-xs text-[#c01015]">Hassle-free dynamic exchanges</p>
             </div>
           </div>
           <div className="flex items-center gap-4 p-2 group">
-            <div className="p-3 rounded-2xl bg-[#f9b685]/20 text-zinc-900 group-hover:bg-[#f9b685] group-hover:text-white transition-all duration-300">
+            <div className="p-3 rounded-2xl  bg-[#c01015]/50 text-zinc-900 group-hover:bg-[#f9b685] group-hover:text-white transition-all duration-300">
               <Sparkles className="w-6 h-6" />
             </div>
             <div>
               <h4 className="font-bold text-sm tracking-tight">Eco-Conscious Packaging</h4>
-              <p className="text-xs text-zinc-500">100% biodegradable materials</p>
+              <p className="text-xs text-[#c01015]">100% biodegradable materials</p>
             </div>
           </div>
         </div>
@@ -223,7 +217,7 @@ const HomePage = () => {
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-zinc-400 mb-2">
               <span className="w-6 h-[2px] bg-[#f9b685]"></span> Architectural Design
             </div>
-            <h3 className="text-3xl md:text-4xl font-black tracking-tight text-zinc-900">
+            <h3 className="text-3xl md:text-4xl font-black tracking-tight text-[#c01015]">
               Shop by Category
             </h3>
           </div>
