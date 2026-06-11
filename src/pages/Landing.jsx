@@ -453,14 +453,14 @@ const HomePage = () => {
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-zinc-950 text-zinc-400 border-t border-zinc-900 py-16">
+      <footer className="bg-[#c01015] text-zinc-400 border-t border-zinc-900 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
-          <p className="text-white text-lg font-black tracking-tighter">Bazaar</p>
-          <p className="text-xs max-w-xs mx-auto text-zinc-500 leading-relaxed">
+          <p className="text-black text-lg font-black tracking-tighter">Bazaar</p>
+          <p className="text-xs max-w-xs mx-auto text-black leading-relaxed">
             Curating state of the art minimalist furniture components and architectural design accessories for modern ecosystems.
           </p>
           <div className="h-[1px] w-12 bg-zinc-800 mx-auto my-4"></div>
-          <p className="text-zinc-600 text-[11px] font-medium">
+          <p className="text-black text-[11px] font-medium">
             © {new Date().getFullYear()} Bazaar Lifestyle Inc. All premium structures reserved globally.
           </p>
         </div>

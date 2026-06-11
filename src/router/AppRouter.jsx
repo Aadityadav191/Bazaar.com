@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import Landing from "../pages/Landing";
 import Shop from "../pages/Shop";
 import ProductDetails from "../pages/ProductDetails";
@@ -15,31 +15,43 @@ import NotFound from "../pages/NotFound";
 import ForgotPassword from "../auth/ForgotPassword";
 import VerifyOtp from "../auth/VerifyOtp";
 import ResetPassword from "../auth/ResetPassword";
+import Profile from "../pages/Account/Profile";
+
+const ProtectedRoute = () => {
+  const hasToken = localStorage.getItem("token");
+  const hasUser = localStorage.getItem("user");
+  
+  // If no auth keys exist in memory, seamlessly bounce them back to the login terminal
+  return hasToken && hasUser ? <Outlet /> : <Navigate to="/auth/login" replace />;
+};
 
 const AppRouter = () => {
   return (
-   <>
-     <Routes>
-      <Route element={<Mainlayout />}>
-      <Route path="/" element={<Landing />} />
-      <Route path="/shop" element={<Shop />} />
-      <Route path="/ProductDetails/:id" element={<ProductDetails />} />
-      <Route path="/about" element={<AboutPage />} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/faq" element={<FAQ />} />
-      <Route path="/return-refunds" element={<ReturnRefund />} />
-      <Route path="*" element={<NotFound />} />
-    </Route>
+    <>
+      <Routes>
+        <Route element={<Mainlayout />}>
+          <Route path="/" element={<Landing />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/ProductDetails/:id" element={<ProductDetails />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/return-refunds" element={<ReturnRefund />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/profile" element={<Profile />} />
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Route>
 
-    <Route path="/auth"  element={<Authlayout />}>
-      <Route path="login" element={<Login />} />
-      <Route path="signup" element={<Signup />} />
-      <Route path="forgot-password" element={<ForgotPassword />} />
-      <Route path="verify-otp" element={<VerifyOtp />} />
-      <Route path="reset-password" element={<ResetPassword />} />
-    </Route>
-     </Routes>
-   </>
+        <Route path="/auth" element={<Authlayout />}>
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="verify-otp" element={<VerifyOtp />} />
+          <Route path="reset-password" element={<ResetPassword />} />
+        </Route>
+      </Routes>
+    </>
   );
 };
 
