@@ -1,14 +1,20 @@
-import api from "./apiConfig";
+export const uploadProfilePicture = async (file, token) => {
+  const dataPayload = new FormData();
+  dataPayload.append("ProfilePic", file);
 
-export const uploadProfile = async (file) => {
-  const formData = new FormData();
-  formData.append("image", file);
-
-  const res = await api.post("/user/upload-profile", formData, {
+  const response = await fetch('http://localhost:5000/api/user/upload-profile', {
+    method: 'POST',
     headers: {
-      "Content-Type": "multipart/form-data",
+      'Authorization': `Bearer ${token}`,
     },
+    body: dataPayload
   });
 
-  return res.data;
+  if (!response.ok) {
+    throw new Error('Failed to synchronize image file with storage bucket.');
+  }
+
+  const result = await response.json();
+  console.log("Verified Backend Data Return:", result);
+  return result.imageUrl; 
 };

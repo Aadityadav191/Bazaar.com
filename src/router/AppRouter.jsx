@@ -16,13 +16,17 @@ import ForgotPassword from "../auth/ForgotPassword";
 import VerifyOtp from "../auth/VerifyOtp";
 import ResetPassword from "../auth/ResetPassword";
 import Profile from "../pages/Account/Profile";
+import Cart from "../pages/Cart";
+import Checkout from "../pages/Checkout";
 
 const ProtectedRoute = () => {
   const hasToken = localStorage.getItem("token");
   const hasUser = localStorage.getItem("user");
-  
-  // If no auth keys exist in memory, seamlessly bounce them back to the login terminal
-  return hasToken && hasUser ? <Outlet /> : <Navigate to="/auth/login" replace />;
+  return hasToken && hasUser ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/auth/login" replace />
+  );
 };
 
 const AppRouter = () => {
@@ -39,6 +43,8 @@ const AppRouter = () => {
           <Route path="/return-refunds" element={<ReturnRefund />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/profile" element={<Profile />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Route>

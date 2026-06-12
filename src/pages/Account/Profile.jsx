@@ -6,7 +6,8 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-import { uploadProfileImage } from "../../services/userService";
+// IMPORT CLEAN UPLOAD LOGIC ABSTRACTION FROM UPLOAD SERVICE
+import { uploadProfilePicture } from "../../services/uploadService";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -56,28 +57,33 @@ export default function Profile() {
 
     setIsUploading(true);
     setErrorMessage("");
+    setSaveSuccess(false);
 
     try {
-      const imageUrl = await uploadProfileImage(file, token);
+      const imageUrl = await uploadProfilePicture(file, token);
 
-      if (!imageUrl) throw new Error("Upload failed");
+      // Make sure the service actually handed back a clean web string link
+      if (!imageUrl || typeof imageUrl !== 'string') {
+        throw new Error("Backend did not return a valid image URL string path.");
+      }
 
       const updatedUser = {
         ...user,
-        avatar: imageUrl,
-        profilePicture: imageUrl
+        avatar: imageUrl,          // Match component schema
+        profilePicture: imageUrl   // Fallback safety matching
       };
 
+      // Set state and sync storage
       setUser(updatedUser);
       localStorage.setItem("user", JSON.stringify(updatedUser));
+      
+      // Forces layout refresh updates across open component windows
       window.dispatchEvent(new Event("storage"));
 
       setSaveSuccess(true);
-      setTimeout(() => setSaveSuccess(false), 3000);
-
     } catch (err) {
       console.error(err);
-      setErrorMessage("Image upload failed.");
+      setErrorMessage(err.message || "Image upload failed.");
     } finally {
       setIsUploading(false);
     }
@@ -140,7 +146,7 @@ export default function Profile() {
         {saveSuccess && (
           <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-semibold rounded-xl flex items-center gap-3 animate-fadeIn">
             <CheckCircle size={16} className="text-emerald-600 flex-shrink-0" />
-            Core profile parameters committed and deployed successfully.
+             Profile operations completed successfully
           </div>
         )}
 
@@ -222,7 +228,7 @@ export default function Profile() {
               </div>
             </div>
 
-            {/* NEW ADDITION: USER ENGAGEMENT / LEVEL MATRIX */}
+            {/* USER ENGAGEMENT Tier Matrix */}
             <div className="bg-white p-5 border border-zinc-200/60 rounded-2xl shadow-xs space-y-3">
               <h3 className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
                 <Award size={13} /> Club Rank
@@ -246,7 +252,7 @@ export default function Profile() {
           {/* RIGHT PANELS LAYOUT CONTAINER */}
           <div className="lg:col-span-2 space-y-6">
 
-            {/* COMPREHENSIVE REGISTRATION FORM */}
+            {/* REGISTRATION FORM */}
             <div className="bg-white border border-zinc-200/60 rounded-2xl p-6 shadow-xs">
               <form onSubmit={handleSaveChanges} className="space-y-5">
                 <div className="flex justify-between items-center pb-3 border-b border-zinc-100">
@@ -335,7 +341,7 @@ export default function Profile() {
               </form>
             </div>
 
-            {/* EXPANDED PURCHASE MANIFEST HISTORY LOG */}
+            {/* HISTORICAL PURCHASE MANIFESTS */}
             <div className="bg-white border border-zinc-200/60 rounded-2xl p-6 shadow-xs space-y-4">
               <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-2">
                 <ShoppingBag size={14} /> Purchase Log Manifest
@@ -372,7 +378,7 @@ export default function Profile() {
               </div>
             </div>
 
-            {/* NEW ADDITION: UTILITY OPERATIONS & SECURITY MATRIX */}
+            {/* UTILITY SECURITY PROTOCOLS */}
             <div className="bg-white border border-zinc-200/60 rounded-2xl p-6 shadow-xs space-y-4">
               <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-2">
                 <Lock size={14} /> Security Framework Controls
@@ -406,7 +412,7 @@ export default function Profile() {
                 </div>
               </div>
 
-              {/* DANGER DESTRUCTION ACTION REGION */}
+              {/* RECORD DESTRUCTION */}
               <div className="pt-4 border-t border-zinc-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-xs">
                 <div className="space-y-0.5">
                   <h4 className="font-bold text-zinc-800 flex items-center gap-1">Decommission System Profile</h4>
