@@ -5,7 +5,7 @@ import Footer from "../Components/Common/Footer";
 
 export default function Mainlayout() {
   const location = useLocation();
-  const pathsWithoutFooter = ["/profile"];
+  const pathsWithoutFooter = ["/profile", "/cart", "/checkout"];
   const shouldHideFooter = pathsWithoutFooter.includes(location.pathname);
   return (
     <>
@@ -14,11 +14,8 @@ export default function Mainlayout() {
         <main className="flex-grow">
           <Outlet />
         </main>
-
-        {/* Conditional evaluation: If the user is on /profile, the footer disappears */}
         {!shouldHideFooter && <Footer />}
       </div>
     </>
   );
 }
-
