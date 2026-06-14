@@ -1,20 +1,27 @@
-export const uploadProfilePicture = async (file, token) => {
-  const dataPayload = new FormData();
-  dataPayload.append("ProfilePic", file);
+import api from "./apiConfig";
 
-  const response = await fetch('http://localhost:5000/api/user/upload-profile', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-    },
-    body: dataPayload
-  });
+export const uploadProfilePicture = async (file) => {
+  try {
+    const dataPayload = new FormData();
+    dataPayload.append("ProfilePic", file);
 
-  if (!response.ok) {
-    throw new Error('Failed to synchronize image file with storage bucket.');
+    const response = await api.post("/user/upload-profile", dataPayload, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    const result = response.data;
+    console.log("Verified Backend Data Return:", result);
+    return result.imageUrl || result.url || result.profilePic || result;
+  } catch (error) {
+    console.error(
+      "Binary payload tracking operational network error:",
+      error.response || error,
+    );
+    throw new Error(
+      error.response?.data?.message ||
+        "Failed to synchronize image file with storage bucket.",
+    );
   }
-
-  const result = await response.json();
-  console.log("Verified Backend Data Return:", result);
-  return result.imageUrl; 
 };

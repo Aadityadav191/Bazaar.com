@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import {
   User, Camera, Mail, Shield, ShoppingBag, MapPin,
   CheckCircle, Save, LogOut, Phone, CreditCard, Lock, Clock, AlertCircle,
-  Award, Key, Smartphone, Trash2, ArrowUpRight, HelpCircle
+  Award, Key, Smartphone, Trash2, ArrowUpRight
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-
-// IMPORT CLEAN UPLOAD LOGIC ABSTRACTION FROM UPLOAD SERVICE
 import { uploadProfilePicture } from "../../services/uploadService";
+import { toast } from 'react-toastify';
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -23,7 +22,6 @@ export default function Profile() {
     address: ''
   });
 
-  const [saveSuccess, setSaveSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   // Load user from localStorage
@@ -46,31 +44,26 @@ export default function Profile() {
     });
   }, [navigate]);
 
-  // =========================
+
   // PROFILE IMAGE UPLOAD
-  // =========================
   const handleAvatarUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const token = localStorage.getItem("token");
-
     setIsUploading(true);
     setErrorMessage("");
-    setSaveSuccess(false);
+
 
     try {
-      const imageUrl = await uploadProfilePicture(file, token);
-
-      // Make sure the service actually handed back a clean web string link
+      const imageUrl = await uploadProfilePicture(file);
       if (!imageUrl || typeof imageUrl !== 'string') {
         throw new Error("Backend did not return a valid image URL string path.");
       }
 
       const updatedUser = {
         ...user,
-        avatar: imageUrl,          // Match component schema
-        profilePicture: imageUrl   // Fallback safety matching
+        avatar: imageUrl,          
+        profilePicture: imageUrl   
       };
 
       // Set state and sync storage
@@ -80,21 +73,19 @@ export default function Profile() {
       // Forces layout refresh updates across open component windows
       window.dispatchEvent(new Event("storage"));
 
-      setSaveSuccess(true);
+      // setSaveSuccess(true);
     } catch (err) {
       console.error(err);
       setErrorMessage(err.message || "Image upload failed.");
     } finally {
       setIsUploading(false);
+      toast.success("Profile Uploded successfully") //Toast for success upload 
     }
   };
 
-  // =========================
   // SAVE PROFILE CHANGES (LOCAL ONLY)
-  // =========================
   const handleSaveChanges = (e) => {
     e.preventDefault();
-
     const updatedUser = {
       ...user,
       ...formData
@@ -105,13 +96,10 @@ export default function Profile() {
     window.dispatchEvent(new Event("storage"));
 
     setIsEditing(false);
-    setSaveSuccess(true);
-    setTimeout(() => setSaveSuccess(false), 3000);
   };
 
-  // =========================
+
   // LOGOUT
-  // =========================
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -131,7 +119,7 @@ export default function Profile() {
             <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">
               Account Environment
             </p>
-            <h1 className="text-3xl font-black tracking-tight mt-0.5">Control Terminal</h1>
+            <h1 className="text-3xl font-black tracking-tight mt-0.5 text-red-600">Control Terminal</h1>
           </div>
 
           <button
@@ -141,14 +129,6 @@ export default function Profile() {
             <LogOut size={13} /> Close Session
           </button>
         </div>
-
-        {/* ALERTS NOTIFICATION FRAME */}
-        {saveSuccess && (
-          <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-semibold rounded-xl flex items-center gap-3 animate-fadeIn">
-            <CheckCircle size={16} className="text-emerald-600 flex-shrink-0" />
-             Profile operations completed successfully
-          </div>
-        )}
 
         {errorMessage && (
           <div className="p-4 bg-rose-50 border border-rose-200 text-rose-900 text-xs font-semibold rounded-xl flex items-center gap-3 animate-fadeIn">
@@ -179,7 +159,7 @@ export default function Profile() {
                   {isUploading && (
                     <div className="absolute inset-0 bg-zinc-950/70 flex flex-col items-center justify-center text-[10px] text-white font-bold tracking-wider backdrop-blur-xs">
                       <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mb-1.5" />
-                      STREAMING...
+                      Uploading...
                     </div>
                   )}
                 </div>

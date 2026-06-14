@@ -4,7 +4,7 @@ import {
   Trash2, Plus, Minus, ShoppingBag, ArrowLeft, 
   CreditCard, ShieldCheck, Truck, RefreshCw, Loader2 
 } from 'lucide-react';
-import { fetchProducts } from "../services/productService";
+import { fetchProducts } from "../../services/productService";
 
 export default function Cart() {
   const navigate = useNavigate();

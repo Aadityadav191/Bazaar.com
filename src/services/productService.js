@@ -1,6 +1,4 @@
-// Product APIs
-
-import api from "./apiConfig";
+import api, { catalogApi } from "./apiConfig";
 
 export const getProducts = async () => {
   const response = await api.get("/products");
@@ -17,22 +15,28 @@ export const addProduct = async (productData) => {
   return response.data;
 };
 
-// Add these dedicated data extraction handlers to your productService file
+/* ====================== EXTERNAL CDN DISPATCHERS (EscuelaJS Catalog Data) =================== */
+
 export const fetchProducts = async () => {
-  const response = await fetch('https://api.escuelajs.co/api/v1/products');
-  if (!response.ok) throw new Error('Failed to retrieve catalog dataset.');
-  
-  const data = await response.json();
-  
-  // Clean broken stringified array brackets if present in API
-  return data.map(product => ({
-    ...product,
-    images: product.images.map(img => img.replace(/[[\]"]/g, ""))
-  }));
+  try {
+    const response = await catalogApi.get("/products");
+    const data = response.data;
+    return data.map((product) => ({
+      ...product,
+      images: product.images.map((img) => img.replace(/[[\]"]/g, "")),
+    }));
+  } catch (error) {
+    console.error("Operational breakdown pulling catalog cache matrix:", error);
+    throw new Error("Failed to retrieve catalog dataset from CDN system.");
+  }
 };
 
 export const fetchTopCategories = async (limit = 5) => {
-  const response = await fetch(`https://api.escuelajs.co/api/v1/categories?limit=${limit}`);
-  if (!response.ok) throw new Error('Failed to retrieve categories map.');
-  return await response.json();
+  try {
+    const response = await catalogApi.get(`/categories?limit=${limit}`);
+    return response.data;
+  } catch (error) {
+    console.error("Operational breakdown pulling categories map:", error);
+    throw new Error("Failed to retrieve categories taxonomy map.");
+  }
 };

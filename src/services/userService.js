@@ -1,8 +1,7 @@
+import { toast } from "react-toastify";
 import api from "./apiConfig";
-// import Toast from "react-hot-toast";
-/* =====================
-AUTH
-===================== */
+
+/* ===================== AUTH ===================== */
 
 // SIGNUP
 export const signupUser = async (userData) => {
@@ -21,9 +20,8 @@ export const loginUser = async (loginData) => {
   }
 };
 
-/* =====================
-   USER CRUD
-===================== */
+/* ===================== USER CRUD ===================== */
+
 
 // Get all users
 export const getAllUsers = async () => {
@@ -49,18 +47,14 @@ export const deleteUser = async (id) => {
   return res.data;
 };
 
-/* =====================
-   PASSWORD
-===================== */
+/* ===================== PASSWORD ===================== */
 
 export const changePassword = async (id, passwordData) => {
   const response = await api.put(`/user/change-password/${id}`, passwordData);
   return response.data;
 };
 
-/* =====================
-   PROFILE IMAGE UPLOAD
-===================== */
+/* ===================== PROFILE IMAGE UPLOAD ===================== */
 
 export const uploadProfileImage = async (file, token) => {
   try {
@@ -75,11 +69,9 @@ export const uploadProfileImage = async (file, token) => {
     });
 
     const data = response.data;
-
-    // normalize backend response
     return data.url || data.profilePic || data.imageUrl || data.image || null;
   } catch (error) {
-    // Toast.error("Image upload failed");
+    toast.error("Image upload failed");
     console.error("Upload error:", error.response || error);
     throw new Error("Image upload failed");
   }

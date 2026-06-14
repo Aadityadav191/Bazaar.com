@@ -4,7 +4,7 @@ import {
   ArrowLeft, CreditCard, ShieldCheck, Truck, 
   Lock, CheckCircle2, AlertCircle, Loader2 
 } from 'lucide-react';
-import { fetchProducts } from "../services/productService";
+import { fetchProducts } from "../../services/productService";
 
 export default function Checkout() {
   const navigate = useNavigate();

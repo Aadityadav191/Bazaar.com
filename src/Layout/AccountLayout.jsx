@@ -1,9 +1,8 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
 import Navbar from "../Components/Common/Navbar";
-import Footer from "../Components/Common/Footer";
+import { Outlet } from "react-router-dom";
 
-export default function Mainlayout() {
+export default function AccountLayout() {
   return (
     <>
       <div className="flex flex-col min-h-screen bg-zinc-50">
@@ -11,7 +10,6 @@ export default function Mainlayout() {
         <main className="flex-grow">
           <Outlet />
         </main>
-        <Footer />
       </div>
     </>
   );

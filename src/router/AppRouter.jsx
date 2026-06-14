@@ -16,8 +16,9 @@ import ForgotPassword from "../auth/ForgotPassword";
 import VerifyOtp from "../auth/VerifyOtp";
 import ResetPassword from "../auth/ResetPassword";
 import Profile from "../pages/Account/Profile";
-import Cart from "../pages/Cart";
-import Checkout from "../pages/Checkout";
+import Cart from "../pages/Account/Cart";
+import Checkout from "../pages/Account/Checkout";
+import AccountLayout from "../Layout/AccountLayout";
 
 const ProtectedRoute = () => {
   const hasToken = localStorage.getItem("token");
@@ -33,6 +34,8 @@ const AppRouter = () => {
   return (
     <>
       <Routes>
+
+      {/* main Layout  */}
         <Route element={<Mainlayout />}>
           <Route path="/" element={<Landing />} />
           <Route path="/shop" element={<Shop />} />
@@ -41,20 +44,27 @@ const AppRouter = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/return-refunds" element={<ReturnRefund />} />
-          <Route element={<ProtectedRoute />}>
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/checkout" element={<Checkout />} />
-          </Route>
           <Route path="*" element={<NotFound />} />
         </Route>
 
+
+        {/* Auth Layout  */}
         <Route path="/auth" element={<Authlayout />}>
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="verify-otp" element={<VerifyOtp />} />
           <Route path="reset-password" element={<ResetPassword />} />
+        </Route>
+
+
+       {/* User page layout  */}
+        <Route element={<AccountLayout />}>
+          <Route element={<ProtectedRoute />}>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+          </Route>
         </Route>
       </Routes>
     </>
