@@ -31,7 +31,7 @@ export default function NotFound() {
 
         <p className="mt-6 text-xl leading-7 text-gray-600 max-w-lg mx-auto">
           Redirecting to Home Page in{" "}
-          <span className="font-bold text-red-600">{countdown}</span> seconds...
+          <span className="font-bold text-red-600 text-3xl">{countdown}</span> seconds...
         </p>
         <h1 className="mt-4 text-6xl font-extrabold tracking-tight text-[#c01015] sm:text-7xl">
           404 - Page Not Found
