@@ -32,7 +32,9 @@ export default function SignupForm() {
         password: data.password,
         phone: data.phone,
       });
-      toast.success("Account created successfully!");
+      toast.success("Account created successfully!", {
+        autoClose: 1500,
+      });
       console.log("Signup response:", response);
       setTimeout(() => navigate("/auth/login"), 1500);
     } catch (error) {

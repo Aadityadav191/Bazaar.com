@@ -9,9 +9,12 @@ import { loginUser } from "../services/userService";
 export default function LoginForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState(false);
+  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
   const handleLogin = async (values, setSubmitting) => {
     try {
+      setSubmitting(true);
+      await delay(2000);   
       const response = await loginUser({
         email: values.email,
         password: values.password,
@@ -21,12 +24,15 @@ export default function LoginForm() {
       localStorage.setItem("token", response.token);
       localStorage.setItem("user", JSON.stringify(response.user));
 
-      toast.success("Login successful!");
+      toast.success("Login successful!", {
+        autoClose: 1500,
+      });
       setTimeout(() => navigate("/"), 1500);
     } catch (error) {
       console.error("Login error:", error.response || error);
       toast.error(
-        error.response?.data?.message || "Login failed. Check your credentials."
+        error.response?.data?.message ||
+          "Login failed. Check your credentials.",
       );
       setSubmitting(false);
     }
@@ -53,7 +59,9 @@ export default function LoginForm() {
           if (!values.password) errors.password = "Password is required";
           return errors;
         }}
-        onSubmit={(values, { setSubmitting }) => handleLogin(values, setSubmitting)}
+        onSubmit={(values, { setSubmitting }) =>
+          handleLogin(values, setSubmitting)
+        }
       >
         {({ isSubmitting, errors, touched }) => (
           <Form className="space-y-5">
@@ -69,9 +77,10 @@ export default function LoginForm() {
                   type="email"
                   placeholder="name@company.com"
                   className={`block w-full pl-10 pr-4 py-3 border rounded-xl text-sm
-                  ${errors.email && touched.email
-                    ? "border-red-500 ring-4 ring-red-50"
-                    : "border-gray-200 focus:border-green-500 focus:ring-4 focus:ring-green-50"
+                  ${
+                    errors.email && touched.email
+                      ? "border-red-500 ring-4 ring-red-50"
+                      : "border-gray-200 focus:border-green-500 focus:ring-4 focus:ring-green-50"
                   }`}
                 />
               </div>
@@ -102,9 +111,10 @@ export default function LoginForm() {
                   type={showPassword ? "text" : "password"}
                   placeholder="*******"
                   className={`block w-full pl-10 pr-4 py-3 border rounded-xl text-sm
-                  ${errors.password && touched.password
-                    ? "border-red-500 ring-4 ring-red-50"
-                    : "border-gray-200 focus:border-green-500 focus:ring-4 focus:ring-green-50"
+                  ${
+                    errors.password && touched.password
+                      ? "border-red-500 ring-4 ring-red-50"
+                      : "border-gray-200 focus:border-green-500 focus:ring-4 focus:ring-green-50"
                   }`}
                 />
               </div>

@@ -49,10 +49,52 @@ export const deleteUser = async (id) => {
 
 /* ===================== PASSWORD ===================== */
 
-export const changePassword = async (id, passwordData) => {
-  const response = await api.put(`/user/change-password/${id}`, passwordData);
-  return response.data;
+export const changeUserPassword = async (userId, passwordPayload) => {
+  if (!userId) {
+    throw new Error("Target User Identification ID is undefined or missing. Ensure you are passing user._id or user.id correctly.");
+  }
+  try {
+    const response = await fetch(`http://localhost:5000/api/user/change-password/${userId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json", // Explicitly request a JSON fallback from Express
+        "Authorization": `Bearer ${localStorage.getItem("token") || ""}`
+      },
+      body: JSON.stringify({
+        oldPassword: passwordPayload.oldPassword,
+        newPassword: passwordPayload.newPassword
+      }),
+    });
+
+    const textData = await response.text();
+    
+    let data;
+    try {
+      data = JSON.parse(textData);
+    } catch (parseError) {
+      // PRINT OUT EXPLICITLY THE HTML RECEIVED FOR DIRECT VISIBILITY
+      console.error("--- SERVER CRASH ERROR SCREENSHOT PRINT ---");
+      console.error(textData); 
+      console.error("-------------------------------------------");
+      
+      if (textData.includes("Cannot POST")) {
+        throw new Error(`Route mismatch: Your backend does not have a POST endpoint registered at this exact path. Check for pluralization (e.g., /api/users vs /api/user).`);
+      }
+      throw new Error("The backend system crashed or returned a 404 HTML layout page instead of structured JSON.");
+    }
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to alter security credential layout mapping.");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Critical service exception:", error);
+    throw error;
+  }
 };
+
 
 /* ===================== PROFILE IMAGE UPLOAD ===================== */
 

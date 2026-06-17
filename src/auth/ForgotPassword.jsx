@@ -19,7 +19,9 @@ export default function ForgotPassword() {
     try {
       // await sendPasswordResetEmail(email);
       setEmail("");
-      toast.success(`Reset Code sent at ${email}! Please check your email.`);
+      toast.success(`Reset Code sent at ${email}! Please check your email.`, {
+        autoClose: 1500,
+      });
       setTimeout(
         () =>
           navigate("/auth/verify-otp", {

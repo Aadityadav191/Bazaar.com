@@ -4,6 +4,7 @@ import "./App.css";
 import Popup from "./Components/Popup";
 import CookieConsent from "./Components/CookieConsent";
 import AppRouter from "./router/AppRouter";
+import { CartProvider } from "./context/CartContext";
 
 function App() {
   const [showPopup, setShowPopup] = useState(false);
@@ -27,7 +28,9 @@ function App() {
       {showConsent && <CookieConsent onAccept={handleAccept} />}
 
       <main className="min-h-screen">
-        <AppRouter />
+        <CartProvider>
+          <AppRouter />
+        </CartProvider>
       </main>
     </>
   );

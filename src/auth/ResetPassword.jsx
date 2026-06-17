@@ -47,6 +47,9 @@ export default function ResetPassword() {
       setLoading(true);
       toast.success(
         "Password reset successful! Please log in with your new password.",
+        {
+          autoClose: 1500,
+        },
       );
       // await resetPassword(password);
       setPassword("");
