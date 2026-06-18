@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import Hero1 from "../../../assets/hero/Hero1.png";
-import Hero2 from "../../../assets/hero/Hero2.png";
-import Hero3 from "../../../assets/hero/Hero3.png";
-import Hero4 from "../../../assets/hero/Hero4.png";
-import Hero5 from "../../../assets/hero/Hero5.png";
-import Hero6 from "../../../assets/hero/Hero6.png";
+import Hero1 from "../../../assets/Hero/Hero1.png";
+import Hero2 from "../../../assets/Hero/Hero2.png";
+import Hero3 from "../../../assets/Hero/Hero3.png";
+import Hero4 from "../../../assets/Hero/Hero4.png";
+import Hero5 from "../../../assets/Hero/Hero5.png";
+import Hero6 from "../../../assets/Hero/Hero6.png";
 
 const HERO_IMAGES = [Hero1, Hero2, Hero3, Hero4, Hero5, Hero6];
 
