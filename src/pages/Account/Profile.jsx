@@ -488,7 +488,7 @@ export default function Profile() {
 
             {/* UTILITY SECURITY PROTOCOLS */}
             <div className="bg-[#c01016] border border-zinc-200/60 rounded-2xl p-6 shadow-xs space-y-4">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-red-900 flex items-center gap-2">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
                 <Lock size={14} /> Security Controls
               </h3>
 
@@ -498,8 +498,8 @@ export default function Profile() {
                   onClick={() => setPasswordModalOpen(true)}
                   className="p-4 border border-red-900 hover:border-zinc-200 rounded-xl flex items-start gap-3.5 transition duration-150 group cursor-pointer"
                 >
-                  <div className="p-2 bg-zinc-50 rounded-xl text-zinc-700 group-hover:bg-[#c01015] transition">
-                    <Key size={15} className="text-zinc-600" />
+                  <div className="p-2 rounded-xl text-white -700 group-hover:bg-[#c01015] transition">
+                    <Key size={15} className="text-white -600" />
                   </div>
                   <div className="space-y-1">
                     <h4 className="text-xs font-bold text-white">
