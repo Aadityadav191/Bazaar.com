@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useHomeData } from "../features/home/hooks/useHomeData";
 import { HeroSlideshow } from "../features/home/components/HeroSlideshow";
-import { ProductCard } from "../components/ui/ProductCard";
+import { ProductCard } from "../Components/ui/ProductCard";
 import Loader from "../Components/Loader";
 import { CategorySection } from "../features/home/components/CategorySection";
 import { PromoBanner } from "../features/home/components/PromoBanner";
