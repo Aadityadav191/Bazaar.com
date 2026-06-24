@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { ChevronLeft, Home } from 'lucide-react';
-import LoginImage from '../assets/LoginImage.png'; // Ensure this path is correct
+import AuthImage from '../assets/AuthImage.png'; // Ensure this path is correct
 
 export default function Authlayout() {
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ export default function Authlayout() {
       <section className="relative hidden w-0 flex-1 lg:block">
         <img
           className="absolute inset-0 h-full w-full object-cover"
-          src={LoginImage}
+          src={AuthImage}
           alt="Office branding"
         />
       </section>
