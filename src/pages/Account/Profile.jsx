@@ -55,14 +55,12 @@ export default function Profile() {
   // Load user from localStorage
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-
     if (!storedUser) {
       navigate("/auth/login");
       return;
     }
 
     const parsedUser = JSON.parse(storedUser);
-
     setUser(parsedUser);
     setFormData({
       name: parsedUser.name || "",
@@ -165,10 +163,7 @@ export default function Profile() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    window.dispatchEvent(new Event("storage"));
-    setTimeout(() => {
-      navigate("/");
-    }, 1000);
+    window.location.href = "/auth/login"; 
   };
 
   if (!user) return null;

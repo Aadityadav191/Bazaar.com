@@ -23,7 +23,7 @@ export default function SignupForm() {
 
   const navigate = useNavigate();
 
-  // ✅ Handle signup with backend API
+  // Handle signup with backend API
   const handleSignup = async (data) => {
     try {
       const response = await signupUser({
@@ -32,11 +32,24 @@ export default function SignupForm() {
         password: data.password,
         phone: data.phone,
       });
+
+      // ---- JWT IMPLEMENTATION ----
+      if (response && response.accessToken) {
+        localStorage.setItem("token", response.accessToken);
+        localStorage.setItem("user", JSON.stringify(response.user));
+      }
       toast.success("Account created successfully!", {
         autoClose: 1500,
       });
       console.log("Signup response:", response);
-      setTimeout(() => navigate("/auth/login"), 1500);
+
+      setTimeout(() => {
+        if (response && response.accessToken) {
+          navigate("/auth/login");
+        } else {
+          navigate("/auth/login");
+        }
+      }, 1500);
     } catch (error) {
       if (error.response) {
         console.error("Backend error:", error.response.data);
@@ -57,45 +70,11 @@ export default function SignupForm() {
 
       {/* Header */}
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-[#c51215]">Create an account</h2>
+        <h2 className="text-3xl font-bold text-[#c51215]">Create an account</h2>
         <p className="text-gray-500 text-sm mt-2">
           Start your shopping journey with Bazaar.com
         </p>
       </div>
-
-      {/* Social Buttons (optional - not connected) */}
-      {/* <div className="grid grid-cols-3 gap-3 mb-8">
-        <button
-          type="button"
-          className="flex justify-center items-center py-2.5 border rounded-lg"
-        >
-          <Chrome className="w-5 h-5 text-red-500" />
-        </button>
-        <button
-          type="button"
-          className="flex justify-center items-center py-2.5 border rounded-lg"
-        >
-          <Facebook className="w-5 h-5 text-blue-600" />
-        </button>
-        <button
-          type="button"
-          className="flex justify-center items-center py-2.5 border rounded-lg"
-        >
-          <Github className="w-5 h-5 text-gray-900" />
-        </button>
-      </div> */}
-
-      {/* Divider */}
-      {/* <div className="relative mb-8">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t border-gray-200"></span>
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-white px-2 text-gray-400">
-            Or continue with email
-          </span>
-        </div>
-      </div> */}
 
       {/* FORM */}
       <form onSubmit={handleSubmit(handleSignup)} className="space-y-4">
@@ -201,7 +180,7 @@ export default function SignupForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full py-3 bg-black text-white rounded-xl font-semibold"
+          className="w-full py-3 bg-[#e20614] text-white rounded-xl font-semibold"
         >
           {isSubmitting ? "Creating Account..." : "Create Account"}
         </button>
